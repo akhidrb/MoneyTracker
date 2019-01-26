@@ -7,10 +7,26 @@
 </head>
 
 <body>
-<h1>Balance Of Current Month!</h1>
-
-<span th:text="${balanceOfCurrentMonth}">Workout</span>
-
+<h1>Balance</h1>
+<div th:if="${payments}">
+    <div th:each="payment : ${payments}">
+        <span th:text="${payment.item}">Payment</span>
+        <span>: </span>
+        <span th:text="${payment.amountPaid}">Payment</span>
+        <br/>
+    </div>
+</div>
+<br/>
+<hr/>
+<br/>
+<div>
+    <span><b>Total Payments for Current Month</b>:</span>
+    <span th:text="${totalPaymentsForCurrentMonth}">Payments</span>
+</div>
+<div>
+    <span><b>Balance for Current Month</b>:</span>
+    <span th:text="${balanceOfCurrentMonth}">Balance</span>
+</div>
 <br/>
 <hr>
 <div>

@@ -30,8 +30,11 @@ public class LoginController {
         Boolean isUserLoggedIn = false;
         if (sessionUtils.userExists(request)) {
             isUserLoggedIn = true;
+            Long userId = sessionUtils.getUserSessionId(request);
+            model.addAttribute("user", userRepo.findUserById(userId));
+        } else {
+            model.addAttribute("user", new User());
         }
-        model.addAttribute("user", new User());
         model.addAttribute("isUserLoggedIn", isUserLoggedIn);
         return "home";
     }
@@ -40,7 +43,7 @@ public class LoginController {
     public String processLogin(User user, HttpServletRequest request) throws Exception {
         String loginUsername = user.getUsername();
         String passwordEncypted = encryptPassword(user.getPassword());
-        User storedUser = getUser(loginUsername, passwordEncypted);
+        User storedUser = getUserByUsernameAndPassword(loginUsername, passwordEncypted);
         if (storedUser != null) {
             sessionUtils.setUserSessionId(storedUser.getId(), request);
         }
@@ -58,7 +61,7 @@ public class LoginController {
         return DigestUtils.md5DigestAsHex(bytes);
     }
 
-    private User getUser(String loginUsername, String passwordEncypted) {
+    private User getUserByUsernameAndPassword(String loginUsername, String passwordEncypted) {
         return userRepo.findUserByUsernameAndPassword(loginUsername, passwordEncypted);
     }
 

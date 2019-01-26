@@ -39,8 +39,29 @@ public class MoneyManagementController {
         if (!sessionUtils.userExists(request)) {
             return "redirect:/login";
         }
+        List<Payment> paymentList = findPaymentsForThisMonth(request);
+        model.addAttribute("payments", paymentList);
+        model.addAttribute("totalPaymentsForCurrentMonth",
+                totalPaymentsForCurrentMonth(paymentList));
         model.addAttribute("balanceOfCurrentMonth", findBalance(request));
         return "manage-form";
+    }
+
+    private long totalPaymentsForCurrentMonth(List<Payment> paymentList) {
+        long totalPayments = 0;
+        for (Payment payment : paymentList) {
+            totalPayments += payment.getAmountPaid();
+        }
+        return totalPayments;
+    }
+
+    private List<Payment> findPaymentsForThisMonth(HttpServletRequest request) {
+        Long userId = sessionUtils.getUserSessionId(request);
+        Iterable<Payment> payments = paymentRepo.findAllByUserId(userId);
+        int currentMonth = getCurrentMonth();
+        List<Payment> paymentList = new ArrayList<Payment>();
+        addPaymentsOfCurrentMonthToList(paymentList, payments, currentMonth);
+        return paymentList;
     }
 
     private Long findBalance(HttpServletRequest request) {

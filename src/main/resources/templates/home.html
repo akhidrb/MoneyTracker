@@ -30,7 +30,7 @@
     </form>
 </div>
 <div th:if="${isUserLoggedIn}">
-    <h1>Hello</h1>
+    <h1>Hello <span th:text="${user.name}"></span></h1>
     <form method="GET" th:action="@{/payment}">
         <button>Make Payment</button>
     </form>
