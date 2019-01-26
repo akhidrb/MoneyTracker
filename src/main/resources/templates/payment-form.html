@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>MoneyTracker</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+
+<body>
+<h1>Add Payments!</h1>
+
+<form method="POST" th:object="${payment}" th:action="@{/payment}">
+
+    <div>
+        <h3>Item:</h3>
+        <input type="text" th:field="*{item}"/>
+    </div>
+    <div>
+        <h3>Amount (LE):</h3>
+        <input type="number" th:field="*{amountPaid}"/>
+    </div>
+
+    <div>
+        <br/>
+        <button>Add Payment</button>
+    </div>
+
+</form>
+<br />
+<div>
+    <form method="POST" th:action="@{/logout}">
+        <button>Logout</button>
+    </form>
+</div>
+
+</body>
+</html>
