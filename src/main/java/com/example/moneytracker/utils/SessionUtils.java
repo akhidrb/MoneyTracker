@@ -11,8 +11,7 @@ public class SessionUtils {
     private static final String USER_SESSSION = "currentUser";
 
     public Boolean userExists(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Object currentUserId = session.getAttribute(USER_SESSSION);
+        Object currentUserId = getUserId(request);
         if (currentUserId == null) {
             return false;
         }
@@ -20,8 +19,7 @@ public class SessionUtils {
     }
 
     public Long getUserSessionId(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Object currentUserId = session.getAttribute(USER_SESSSION);
+        Object currentUserId = getUserId(request);
         return Long.parseLong(currentUserId.toString());
     }
 
@@ -35,6 +33,11 @@ public class SessionUtils {
     public void clearSession(HttpServletRequest request) {
         HttpSession session = request.getSession();
         session.removeAttribute(USER_SESSSION);
+    }
+
+    private Object getUserId(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        return session.getAttribute(USER_SESSSION);
     }
 
 }

@@ -27,25 +27,24 @@ public class LoginController {
 
     @RequestMapping(value="/login", method = RequestMethod.GET)
     public String showLoginForm(Model model, HttpServletRequest request) {
+        Boolean isUserLoggedIn = false;
         if (sessionUtils.userExists(request)) {
-            return "redirect:/payment";
+            isUserLoggedIn = true;
         }
         model.addAttribute("user", new User());
+        model.addAttribute("isUserLoggedIn", isUserLoggedIn);
         return "home";
     }
 
     @RequestMapping(value="/login", method = RequestMethod.POST)
     public String processLogin(User user, HttpServletRequest request) throws Exception {
         String loginUsername = user.getUsername();
-        String passwordEncypted = encryptPassword(user);
+        String passwordEncypted = encryptPassword(user.getPassword());
         User storedUser = getUser(loginUsername, passwordEncypted);
-        if (storedUser == null) {
-            return "redirect:/login";
+        if (storedUser != null) {
+            sessionUtils.setUserSessionId(storedUser.getId(), request);
         }
-        sessionUtils.setUserSessionId(storedUser.getId(), request);
-        return "redirect:/payment";
-
-
+        return "redirect:/login";
     }
 
     @RequestMapping(value="/logout", method = RequestMethod.POST)
@@ -54,10 +53,9 @@ public class LoginController {
         return "redirect:/login";
     }
 
-    private String encryptPassword(User user) throws Exception {
-        String loginPassword = user.getPassword();
-        byte[] password = loginPassword.getBytes("UTF-8");
-        return DigestUtils.md5DigestAsHex(password);
+    private String encryptPassword(String password) throws Exception {
+        byte[] bytes = password.getBytes("UTF-8");
+        return DigestUtils.md5DigestAsHex(bytes);
     }
 
     private User getUser(String loginUsername, String passwordEncypted) {

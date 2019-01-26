@@ -5,4 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface PaymentRepo extends CrudRepository<Payment, Long> {
 
+    Iterable<Payment> findAllByUserId(Long userId);
+
 }

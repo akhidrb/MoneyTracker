@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>MoneyTracker</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+
+<body>
+<h1>Balance Of Current Month!</h1>
+
+<span th:text="${balanceOfCurrentMonth}">Workout</span>
+
+<br/>
+<hr>
+<div>
+    <form method="GET" th:action="@{/login}">
+        <button>Back to Home</button>
+    </form>
+</div>
+
+</body>
+</html>

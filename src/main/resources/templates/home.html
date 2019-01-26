@@ -7,25 +7,48 @@
 </head>
 
 <body>
-<h1>Login Page</h1>
 
-<form method="POST" th:object="${user}">
+<div th:if="${!isUserLoggedIn}">
+    <h1>Login Page</h1>
 
-    <div>
-        <h3>Username:</h3>
-        <input type="text" th:field="*{username}"/>
-    </div>
-    <div>
-        <h3>Password:</h3>
-        <input type="password" th:field="*{password}"/>
-    </div>
+    <form method="POST" th:object="${user}">
 
-    <div>
-        <br/>
-        <button>Login</button>
-    </div>
+        <div>
+            <h3>Username:</h3>
+            <input type="text" th:field="*{username}"/>
+        </div>
+        <div>
+            <h3>Password:</h3>
+            <input type="password" th:field="*{password}"/>
+        </div>
 
-</form>
+        <div>
+            <br/>
+            <button>Login</button>
+        </div>
+
+    </form>
+</div>
+<div th:if="${isUserLoggedIn}">
+    <h1>Hello</h1>
+    <form method="GET" th:action="@{/payment}">
+        <button>Make Payment</button>
+    </form>
+    <br/>
+    <form method="GET" th:action="@{/profit}">
+        <button>Add Profit</button>
+    </form>
+    <br/>
+    <form method="GET" th:action="@{/manage/balance}">
+        <button>Find Balance</button>
+    </form>
+    <br/>
+    <br/>
+    <hr>
+    <form method="POST" th:action="@{/logout}">
+        <button>Logout</button>
+    </form>
+</div>
 
 </body>
 </html>

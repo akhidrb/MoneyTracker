@@ -5,4 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface ProfitRepo extends CrudRepository<Profit, Long> {
 
+    Iterable<Profit> findAllByUserId(Long userId);
+
+
 }
