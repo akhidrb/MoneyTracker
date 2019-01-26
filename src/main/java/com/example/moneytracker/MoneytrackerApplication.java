@@ -20,12 +20,15 @@ public class MoneytrackerApplication {
 		return new CommandLineRunner() {
 			@Override
 			public void run(String... args) throws Exception {
-				byte[] password = "khidr".getBytes("UTF-8");
-				String passwordEncypted =  DigestUtils.md5DigestAsHex(password);
-				User user = new User("Khidr", "khidr", passwordEncypted);
-				userRepo.save(user);
+				userRepo.save(new User("Khidr", "khidr", encryptPassword("khidr")));
+				userRepo.save(new User("Bimo", "bimo", encryptPassword("bimo")));
 			}
 		};
+	}
+
+	private String encryptPassword(String password) throws Exception {
+		byte[] bytes = password.getBytes("UTF-8");
+		return DigestUtils.md5DigestAsHex(bytes);
 	}
 
 }

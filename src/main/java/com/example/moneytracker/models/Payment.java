@@ -15,6 +15,8 @@ public class Payment {
     @GeneratedValue
     private Long id;
 
+    private Long userId;
+
     private Long amountPaid;
 
     private Date date;
@@ -37,6 +39,14 @@ public class Payment {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Long getAmountPaid() {
