@@ -3,36 +3,47 @@
       xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>MoneyTracker</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale = 1">
+    <link rel="stylesheet"
+          href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/styles.css}"/>
 </head>
 
 <body>
-<h1>Balance</h1>
-<div th:if="${payments}">
-    <div th:each="payment : ${payments}">
-        <span th:text="${payment.item}">Payment</span>
-        <span>: </span>
-        <span th:text="${payment.amountPaid}">Payment</span>
+
+<div class="container">
+    <div class="jumbotron">
+
+        <h1>Balance</h1>
+        <div th:if="${payments}">
+            <div th:each="payment : ${payments}">
+                <span th:text="${payment.item}">Payment</span>
+                <span>: </span>
+                <span th:text="${payment.amountPaid}">Payment</span>
+                <br/>
+            </div>
+        </div>
         <br/>
+        <hr/>
+        <br/>
+        <div>
+            <span><b>Total Payments for Current Month</b>:</span>
+            <span th:text="${totalPaymentsForCurrentMonth}">Payments</span>
+        </div>
+        <div>
+            <span><b>Balance for Current Month</b>:</span>
+            <span th:text="${balanceOfCurrentMonth}">Balance</span>
+        </div>
+        <br/>
+        <hr>
+        <div>
+            <form method="GET" th:action="@{/login}">
+                <button>Back to Home</button>
+            </form>
+        </div>
+
     </div>
-</div>
-<br/>
-<hr/>
-<br/>
-<div>
-    <span><b>Total Payments for Current Month</b>:</span>
-    <span th:text="${totalPaymentsForCurrentMonth}">Payments</span>
-</div>
-<div>
-    <span><b>Balance for Current Month</b>:</span>
-    <span th:text="${balanceOfCurrentMonth}">Balance</span>
-</div>
-<br/>
-<hr>
-<div>
-    <form method="GET" th:action="@{/login}">
-        <button>Back to Home</button>
-    </form>
 </div>
 
 </body>

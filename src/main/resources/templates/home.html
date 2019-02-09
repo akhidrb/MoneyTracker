@@ -3,51 +3,81 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>MoneyTracker</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale = 1">
+    <link rel="stylesheet"
+          href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/styles.css}" />
 </head>
 
 <body>
 
-<div th:if="${!isUserLoggedIn}">
-    <h1>Login Page</h1>
+<div class="container">
+    <div class="jumbotron">
 
-    <form method="POST" th:object="${user}">
+        <div th:if="${!isUserLoggedIn}">
+            <h1>Login Page</h1>
 
-        <div>
-            <h3>Username:</h3>
-            <input type="text" th:field="*{username}"/>
-        </div>
-        <div>
-            <h3>Password:</h3>
-            <input type="password" th:field="*{password}"/>
-        </div>
+            <form method="POST" th:object="${user}">
 
-        <div>
-            <br/>
-            <button>Login</button>
-        </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h3>Username:</h3>
+                        <input type="text" th:field="*{username}"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h3>Password:</h3>
+                        <input type="password" th:field="*{password}"/>
+                    </div>
+                </div>
 
-    </form>
+                <div class="row">
+                    <div class="col-md-4">
+                        <br/>
+                        <button>Login</button>
+                    </div>
+                </div>
+
+            </form>
 </div>
 <div th:if="${isUserLoggedIn}">
     <h1>Hello <span th:text="${user.name}"></span></h1>
-    <form method="GET" th:action="@{/payment}">
-        <button>Make Payment</button>
-    </form>
+    <div class="row">
+        <div class="col-md-4">
+            <form method="GET" th:action="@{/payment}">
+                <button>Make Payment</button>
+            </form>
+        </div>
+    </div>
     <br/>
-    <form method="GET" th:action="@{/profit}">
-        <button>Add Profit</button>
-    </form>
+    <div class="row">
+        <div class="col-md-4">
+            <form method="GET" th:action="@{/profit}">
+                <button>Add Profit</button>
+            </form>
+        </div>
+    </div>
     <br/>
-    <form method="GET" th:action="@{/manage/balance}">
-        <button>Find Balance</button>
-    </form>
+    <div class="row">
+        <div class="col-md-4">
+            <form method="GET" th:action="@{/manage/balance}">
+                <button>Find Balance</button>
+            </form>
+        </div>
+    </div>
     <br/>
     <br/>
     <hr>
-    <form method="POST" th:action="@{/logout}">
-        <button>Logout</button>
-    </form>
+    <div class="row">
+        <div class="col-md-4">
+            <form method="POST" th:action="@{/logout}">
+                <button>Logout</button>
+            </form>
+        </div>
+    </div>
+</div>
 </div>
 
 </body>

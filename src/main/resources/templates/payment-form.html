@@ -3,35 +3,45 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>MoneyTracker</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale = 1">
+    <link rel="stylesheet"
+          href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/styles.css}" />
 </head>
 
 <body>
-<h1>Add Payments!</h1>
 
-<form method="POST" th:object="${payment}" th:action="@{/payment}">
+<div class="container">
+    <div class="jumbotron">
 
-    <div>
-        <h3>Item:</h3>
-        <input type="text" th:field="*{item}"/>
-    </div>
-    <div>
-        <h3>Amount (LE):</h3>
-        <input type="number" th:field="*{amountPaid}"/>
-    </div>
+        <h1>Add Payments!</h1>
 
-    <div>
+        <form method="POST" th:object="${payment}" th:action="@{/payment}">
+
+            <div>
+                <h3>Item:</h3>
+                <input type="text" th:field="*{item}"/>
+            </div>
+            <div>
+                <h3>Amount (LE):</h3>
+                <input type="number" th:field="*{amountPaid}"/>
+            </div>
+
+            <div>
+                <br/>
+                <button>Add Payment</button>
+            </div>
+
+        </form>
         <br/>
-        <button>Add Payment</button>
+        <hr>
+        <div>
+            <form method="GET" th:action="@{/login}">
+                <button>Back to Home</button>
+            </form>
+        </div>
     </div>
-
-</form>
-<br />
-<hr>
-<div>
-    <form method="GET" th:action="@{/login}">
-        <button>Back to Home</button>
-    </form>
 </div>
 
 </body>
