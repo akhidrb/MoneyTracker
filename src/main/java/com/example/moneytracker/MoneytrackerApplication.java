@@ -15,21 +15,21 @@ public class MoneytrackerApplication {
 		SpringApplication.run(MoneytrackerApplication.class, args);
 	}
 
-	// @Bean
-	// public CommandLineRunner dataLoader(UserRepo userRepo) {
-	// 	return new CommandLineRunner() {
-	// 		@Override
-	// 		public void run(String... args) throws Exception {
-	// 			userRepo.save(new User("Khidr", "khidr", encryptPassword("khidr")));
-	// 			userRepo.save(new User("Bimo", "bimo", encryptPassword("bimo")));
-	// 		}
-	// 	};
-	// }
+	@Bean
+	public CommandLineRunner dataLoader(UserRepo userRepo) {
+		return new CommandLineRunner() {
+			@Override
+			public void run(String... args) throws Exception {
+				userRepo.save(new User("Khidr", "khidr", encryptPassword("k_2121!")));
+				userRepo.save(new User("Bimo", "bimo", encryptPassword("b_2121!")));
+			}
+		};
+	}
 
-	// private String encryptPassword(String password) throws Exception {
-	// 	byte[] bytes = password.getBytes("UTF-8");
-	// 	return DigestUtils.md5DigestAsHex(bytes);
-	// }
+	private String encryptPassword(String password) throws Exception {
+		byte[] bytes = password.getBytes("UTF-8");
+		return DigestUtils.md5DigestAsHex(bytes);
+	}
 
 }
 
