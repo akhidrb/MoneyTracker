@@ -35,6 +35,9 @@
 
         </form>
         <br/>
+        <div th:if="${error}">
+            <span style="color: red" th:text="${error.getMessage().toString()}"></span>
+        </div>
         <hr>
         <div>
             <form method="GET" th:action="@{/login}">

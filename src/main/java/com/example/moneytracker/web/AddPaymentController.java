@@ -2,6 +2,7 @@ package com.example.moneytracker.web;
 
 import com.example.moneytracker.data.PaymentRepo;
 import com.example.moneytracker.models.Payment;
+import com.example.moneytracker.utils.AuthenticationUtils;
 import com.example.moneytracker.utils.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,11 +20,15 @@ public class AddPaymentController {
 
     private final PaymentRepo paymentRepo;
     private final SessionUtils sessionUtils;
+    private final AuthenticationUtils authenticationUtils;
 
     @Autowired
-    public AddPaymentController(PaymentRepo paymentRepo, SessionUtils sessionUtils) {
+    public AddPaymentController(PaymentRepo paymentRepo,
+                                SessionUtils sessionUtils,
+                                AuthenticationUtils authenticationUtils) {
         this.paymentRepo = paymentRepo;
         this.sessionUtils = sessionUtils;
+        this.authenticationUtils = authenticationUtils;
     }
 
     @GetMapping
@@ -40,10 +45,24 @@ public class AddPaymentController {
         if (!sessionUtils.userExists(request)) {
             return "redirect:/login";
         }
+        if (!authenticationUtils.paymentDetailsAuthentication(payment)) {
+            return "redirect:/payment/error";
+        }
+
         addUserIdToPayment(payment, request);
         addCurrentDateToPayment(payment);
         paymentRepo.save(payment);
         return "redirect:/payment";
+    }
+
+    @GetMapping("/error")
+    public String processPaymentError(Model model, HttpServletRequest request) {
+        if (!sessionUtils.userExists(request)) {
+            return "redirect:/login";
+        }
+        model.addAttribute("payment", new Payment());
+        model.addAttribute("error", new Error("Payment Entry Error!"));
+        return "payment-form";
     }
 
     private void addUserIdToPayment(Payment payment, HttpServletRequest request) {

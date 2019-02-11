@@ -1,14 +1,11 @@
 package com.example.moneytracker.models;
 
-import lombok.Data;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
-//@Data
 @Entity
 @Table(name = "payment")
 public class Payment {
