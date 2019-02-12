@@ -4,23 +4,26 @@ import com.example.moneytracker.data.ProfitRepo;
 import com.example.moneytracker.models.Profit;
 import com.example.moneytracker.utils.AuthenticationUtils;
 import com.example.moneytracker.utils.SessionUtils;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
-@Controller
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@RestController
 @RequestMapping("/profit")
 public class AddProfitController {
 
     private final ProfitRepo profitRepo;
     private final SessionUtils sessionUtils;
     private final AuthenticationUtils authenticationUtils;
+
+    private static final String PROFIT = "profit";
+
 
     @Autowired
     public AddProfitController(ProfitRepo profitRepo,
@@ -32,16 +35,17 @@ public class AddProfitController {
     }
 
     @GetMapping
-    public String showAddForm(Model model, HttpServletRequest request) {
-        if (!sessionUtils.userExists(request)) {
-            return "redirect:/login";
-        }
-        model.addAttribute("profit", new Profit());
-        return "profit-form";
+    public String showAddForm(HttpServletRequest request) {
+//        if (!sessionUtils.userExists(request)) {
+//            return "redirect:/login";
+//        }
+        return serializeResponse("Hello");
     }
 
     @PostMapping
     public String processProfit(Profit profit, HttpServletRequest request) {
+
+
         if (!sessionUtils.userExists(request)) {
             return "redirect:/login";
         }
@@ -73,6 +77,21 @@ public class AddProfitController {
 
     private void addCurrentDateToPayment(Profit profit) {
         profit.setDate(new Date());
+    }
+
+
+    public String serializeResponse(String response) {
+        JsonObject successResponse = new JsonObject();
+        Gson gson = new Gson();
+        successResponse.add(PROFIT,
+                gson.toJsonTree(response));
+        return successResponse.toString();
+    }
+
+    private Object deserializeRequestBody(String valueObject, Class<?> valueObjectClass) {
+        Gson gson = new Gson();
+        Object serializedValueObject = gson.fromJson(valueObject, valueObjectClass);
+        return serializedValueObject;
     }
 
 }
