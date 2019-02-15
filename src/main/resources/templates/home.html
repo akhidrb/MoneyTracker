@@ -12,37 +12,6 @@
 
 <body>
 
-<div class="container">
-    <div class="jumbotron">
-
-        <div th:if="${!isUserLoggedIn}">
-            <h1>Login Page</h1>
-
-            <form method="POST" th:object="${user}">
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <h3>Username:</h3>
-                        <input type="text" th:field="*{username}"/>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <h3>Password:</h3>
-                        <input type="password" th:field="*{password}"/>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <br/>
-                        <button>Login</button>
-                    </div>
-                </div>
-
-            </form>
-</div>
-<div th:if="${isUserLoggedIn}">
     <h1>Hello <span th:text="${user.name}"></span></h1>
     <div class="row">
         <div class="col-md-4">
@@ -72,13 +41,16 @@
     <hr>
     <div class="row">
         <div class="col-md-4">
-            <form method="POST" th:action="@{/logout}">
-                <button>Logout</button>
-            </form>
+            <div th:unless="${subject.authenticated}">
+                <a th:href="@{/login.html}" class="btn btn-primary">Login</a>
+            </div>
+            <div th:if="${subject.authenticated}">
+                <form method="POST" th:action="@{/logout}">
+                    <button>Logout</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-</div>
 
 </body>
 </html>

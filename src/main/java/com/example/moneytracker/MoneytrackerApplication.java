@@ -2,6 +2,10 @@ package com.example.moneytracker;
 
 import com.example.moneytracker.data.UserRepo;
 import com.example.moneytracker.models.User;
+import org.apache.shiro.realm.Realm;
+import org.apache.shiro.realm.text.TextConfigurationRealm;
+import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
+import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,6 +29,32 @@ public class MoneytrackerApplication {
 			}
 		};
 	}
+
+	///////////////////////////////// Shiro /////////////////////////////
+	@Bean
+	public Realm realm() {
+		TextConfigurationRealm realm = new TextConfigurationRealm();
+		realm.setUserDefinitions("joe.coder=password,user\n" +
+				"jill.coder=password,admin");
+
+		realm.setRoleDefinitions("admin=read,write\n" +
+				"user=read");
+		realm.setCachingEnabled(true);
+		return realm;
+	}
+
+	@Bean
+	public ShiroFilterChainDefinition shiroFilterChainDefinition() {
+		DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
+		chainDefinition.addPathDefinition("/login.html", "authc"); // need to accept POSTs from the login form
+		chainDefinition.addPathDefinition("/logout", "logout");
+		return chainDefinition;
+	}
+//	@ModelAttribute(name = "subject")
+//	public Subject subject() {
+//		return SecurityUtils.getSubject();
+//	}
+	//////////////////////////////////////////////////////////////
 
 	private String encryptPassword(String password) throws Exception {
 		byte[] bytes = password.getBytes("UTF-8");
