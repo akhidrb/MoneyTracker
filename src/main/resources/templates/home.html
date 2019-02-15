@@ -42,7 +42,7 @@
     <div class="row">
         <div class="col-md-4">
             <div th:unless="${subject.authenticated}">
-                <a th:href="@{/login.html}" class="btn btn-primary">Login</a>
+                <a th:href="@{/login}" class="btn btn-primary">Login</a>
             </div>
             <div th:if="${subject.authenticated}">
                 <form method="POST" th:action="@{/logout}">
