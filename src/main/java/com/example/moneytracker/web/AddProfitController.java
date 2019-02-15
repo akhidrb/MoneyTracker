@@ -6,6 +6,8 @@ import com.example.moneytracker.utils.AuthenticationUtils;
 import com.example.moneytracker.utils.SessionUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,18 +38,14 @@ public class AddProfitController {
 
     @GetMapping
     public String showAddForm(HttpServletRequest request) {
-//        if (!sessionUtils.userExists(request)) {
-//            return "redirect:/login";
-//        }
         return serializeResponse("Hello");
     }
 
     @PostMapping
     public String processProfit(Profit profit, HttpServletRequest request) {
-
-
-        if (!sessionUtils.userExists(request)) {
-            return "redirect:/login";
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.isAuthenticated()) {
+            return "redirect:/home";
         }
         if (!authenticationUtils.profitDetailsAuthentication(profit)) {
             return "redirect:/profit/error";
@@ -61,8 +59,9 @@ public class AddProfitController {
 
     @GetMapping("/error")
     public String processProfitError(Model model, HttpServletRequest request) {
-        if (!sessionUtils.userExists(request)) {
-            return "redirect:/login";
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.isAuthenticated()) {
+            return "redirect:/home";
         }
         model.addAttribute("profit", new Profit());
         model.addAttribute("error", new Error("Profit Entry Error!"));

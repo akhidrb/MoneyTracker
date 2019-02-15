@@ -33,16 +33,6 @@ public class HomeController {
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String showLoginForm(Model model, HttpServletRequest request) {
-        Boolean isUserLoggedIn = false;
-        if (sessionUtils.userExists(request)) {
-            isUserLoggedIn = true;
-            Long userId = sessionUtils.getUserSessionId(request);
-            model.addAttribute("user", userRepo.findUserById(userId));
-        } else {
-            model.addAttribute("user", new User());
-        }
-        model.addAttribute("isUserLoggedIn", isUserLoggedIn);
-        ///////////////////
         String name = "World";
 
         Subject subject = SecurityUtils.getSubject();
@@ -53,6 +43,7 @@ public class HomeController {
             Collection<Map> principalMaps = subject.getPrincipals().byType(Map.class);
             if (CollectionUtils.isEmpty(principalMaps)) {
                 name = subject.getPrincipal().toString();
+                addUserToSession(subject);
             } else {
                 name = (String) principalMaps.iterator().next().get("username");
             }
@@ -63,15 +54,10 @@ public class HomeController {
         return "home";
     }
 
-    @RequestMapping(value = "/home", method = RequestMethod.POST)
-    public String processLogin(User user, HttpServletRequest request) throws Exception {
-        String loginUsername = user.getUsername();
-        String passwordEncypted = encryptPassword(user.getPassword());
-        User storedUser = getUserByUsernameAndPassword(loginUsername, passwordEncypted);
-//        if (storedUser != null) {
-//            sessionUtils.setUserSessionId(storedUser.getId(), request);
-//        }
-        return "redirect:/home";
+    private void addUserToSession(Subject subject) {
+        String username = subject.getPrincipal().toString();
+        User user = userRepo.findUserByUsername(username);
+        subject.getSession().setAttribute("currentUser", user.getId());
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.POST)

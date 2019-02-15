@@ -1,9 +1,11 @@
 package com.example.moneytracker.utils;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @Component
 public class SessionUtils {
@@ -11,7 +13,7 @@ public class SessionUtils {
     private static final String USER_SESSSION = "currentUser";
 
     public Boolean userExists(HttpServletRequest request) {
-        Object currentUserId = getUserId(request);
+        Object currentUserId = getUserId();
         if (currentUserId == null) {
             return false;
         }
@@ -19,24 +21,19 @@ public class SessionUtils {
     }
 
     public Long getUserSessionId(HttpServletRequest request) {
-        Object currentUserId = getUserId(request);
+        Object currentUserId = getUserId();
         return Long.parseLong(currentUserId.toString());
     }
 
-    public void setUserSessionId(Long userId, HttpServletRequest request) {
-        if (request != null && userId != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("currentUser", userId);
-        }
-    }
-
     public void clearSession(HttpServletRequest request) {
-        HttpSession session = request.getSession();
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
         session.removeAttribute(USER_SESSSION);
     }
 
-    private Object getUserId(HttpServletRequest request) {
-        HttpSession session = request.getSession();
+    private Object getUserId() {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
         return session.getAttribute(USER_SESSSION);
     }
 

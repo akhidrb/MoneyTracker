@@ -4,6 +4,8 @@ import com.example.moneytracker.data.PaymentRepo;
 import com.example.moneytracker.models.Payment;
 import com.example.moneytracker.utils.AuthenticationUtils;
 import com.example.moneytracker.utils.SessionUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,17 +35,21 @@ public class AddPaymentController {
 
     @GetMapping
     public String showAddForm(Model model, HttpServletRequest request) {
-        if (!sessionUtils.userExists(request)) {
-            return "redirect:/login";
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.isAuthenticated()) {
+            return "redirect:/home";
         }
+
+
         model.addAttribute("payment", new Payment());
         return "payment-form";
     }
 
     @PostMapping
     public String processPayment(Payment payment, HttpServletRequest request) {
-        if (!sessionUtils.userExists(request)) {
-            return "redirect:/login";
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.isAuthenticated()) {
+            return "redirect:/home";
         }
         if (!authenticationUtils.paymentDetailsAuthentication(payment)) {
             return "redirect:/payment/error";
@@ -57,8 +63,9 @@ public class AddPaymentController {
 
     @GetMapping("/error")
     public String processPaymentError(Model model, HttpServletRequest request) {
-        if (!sessionUtils.userExists(request)) {
-            return "redirect:/login";
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.isAuthenticated()) {
+            return "redirect:/home";
         }
         model.addAttribute("payment", new Payment());
         model.addAttribute("error", new Error("Payment Entry Error!"));
