@@ -75,7 +75,7 @@ public class AddProfitController {
     }
 
     private void addCurrentDateToPayment(Profit profit) {
-        profit.setDate(new Date());
+        profit.set_date(new Date());
     }
 
 

@@ -1,27 +1,28 @@
 package com.example.moneytracker.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "profit")
+@SequenceGenerator(name = "profit_seq", sequenceName = "profit_id_seq", initialValue = 1)
 public class Profit {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profit_seq")
     private Long id;
 
+    @Column(name = "userid")
     private Long userId;
 
-    private Date date;
+    @Column(name = "_date")
+    private Date _date;
 
+    @Column(name = "source")
     private String source;
 
+    @Column(name = "amount")
     private Long amount;
-
 
     public Profit() {
 
@@ -50,12 +51,12 @@ public class Profit {
         this.userId = userId;
     }
 
-    public Date getDate() {
-        return date;
+    public Date get_date() {
+        return _date;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void set_date(Date _date) {
+        this._date = _date;
     }
 
 

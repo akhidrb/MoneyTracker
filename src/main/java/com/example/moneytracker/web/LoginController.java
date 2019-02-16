@@ -22,12 +22,6 @@ public class LoginController {
         this.userRepo = userRepo;
     }
 
-//    @RequestMapping("/login.html")
-//    public String loginTemplate() {
-//
-//        return "login";
-//    }
-
     @GetMapping("/login")
     public String loginGet(Model model) {
         model.addAttribute("user", new User());
@@ -46,8 +40,7 @@ public class LoginController {
         try {
             subject.login(token);
             return "redirect:/home";
-        } catch (Exception exception) {
-            //        FirstFactorAuthenticationException
+        } catch (Exception e) { // FirstFactorAuthenticationException
             return "redirect:/login";
         }
     }

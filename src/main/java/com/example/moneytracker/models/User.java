@@ -1,16 +1,14 @@
 package com.example.moneytracker.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "_user")
+@SequenceGenerator(name = "user_seq", sequenceName = "user_id_seq", initialValue = 3)
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
     private Long id;
 
     private String name;

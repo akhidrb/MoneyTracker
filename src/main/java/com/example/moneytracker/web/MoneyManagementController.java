@@ -85,7 +85,7 @@ public class MoneyManagementController {
                                                  Iterable<Payment> payments,
                                                  int currentMonth) {
         payments.forEach(payment -> {
-            Date paymentDate = payment.getDate();
+            Date paymentDate = payment.get_date();
             if (paymentDate.getMonth() == currentMonth) {
                 paymentList.add(payment);
             }
@@ -96,7 +96,7 @@ public class MoneyManagementController {
                                                 Iterable<Profit> profits,
                                                 int currentMonth) {
         profits.forEach(profit -> {
-            Date profitDate = profit.getDate();
+            Date profitDate = profit.get_date();
             if (profitDate.getMonth() == currentMonth) {
                 profitList.add(profit);
             }

@@ -78,7 +78,7 @@ public class AddPaymentController {
     }
 
     private void addCurrentDateToPayment(Payment payment) {
-        payment.setDate(new Date());
+        payment.set_date(new Date());
     }
 
 }
