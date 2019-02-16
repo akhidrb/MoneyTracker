@@ -25,7 +25,6 @@ public class Payment {
     private String item;
 
     public Payment() {
-
     }
 
     public Payment(Long id, Long amountPaid, String item) {
