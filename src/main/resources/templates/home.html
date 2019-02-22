@@ -13,27 +13,29 @@
 <body>
 
 <h1>Hello <span th:text="${name}"></span></h1>
-    <div class="row">
-        <div class="col-md-4">
-            <form method="GET" th:action="@{/payment}">
-                <button>Make Payment</button>
-            </form>
-        </div>
+<div th:if="${subject.authenticated}">
+  <div class="row">
+    <div class="col-md-4">
+      <form method="GET" th:action="@{/payment}">
+        <button>Make Payment</button>
+      </form>
     </div>
-    <br/>
-    <div class="row">
-        <div class="col-md-4">
-            <form method="GET" th:action="@{/profit}">
-                <button>Add Profit</button>
-            </form>
-        </div>
+  </div>
+  <br/>
+  <div class="row">
+    <div class="col-md-4">
+      <form method="GET" th:action="@{/profit}">
+        <button>Add Profit</button>
+      </form>
     </div>
-    <br/>
-    <div class="row">
-        <div class="col-md-4">
-            <form method="GET" th:action="@{/manage/balance}">
-                <button>Find Balance</button>
-            </form>
+  </div>
+  <br/>
+  <div class="row">
+    <div class="col-md-4">
+      <form method="GET" th:action="@{/manage/balance}">
+        <button>Find Balance</button>
+      </form>
+    </div>
         </div>
     </div>
     <br/>

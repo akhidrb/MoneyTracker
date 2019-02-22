@@ -47,7 +47,8 @@ public class MoneytrackerApplication {
 	@Bean
 	public ShiroFilterChainDefinition shiroFilterChainDefinition() {
 		DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
-		chainDefinition.addPathDefinition("/login.html", "authc"); // need to accept POSTs from the login form
+    chainDefinition
+        .addPathDefinition("/login.html", "authc,rest"); // need to accept POSTs from the login form
 		chainDefinition.addPathDefinition("/logout", "logout");
 		return chainDefinition;
 	}

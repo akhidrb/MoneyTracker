@@ -6,14 +6,17 @@ import com.example.moneytracker.utils.AuthenticationUtils;
 import com.example.moneytracker.utils.SessionUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import java.util.Date;
+import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
@@ -38,6 +41,10 @@ public class AddProfitController {
 
     @GetMapping
     public String showAddForm(HttpServletRequest request) {
+      Subject subject = SecurityUtils.getSubject();
+      if (!subject.isAuthenticated()) {
+        return "redirect:/home";
+      }
         return serializeResponse("Hello");
     }
 

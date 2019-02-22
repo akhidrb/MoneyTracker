@@ -1,11 +1,17 @@
 package com.example.moneytracker.models;
 
-import javax.persistence.*;
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "payment")
-@SequenceGenerator(name = "payment_seq", sequenceName = "payment_id_seq", initialValue = 1)
+@SequenceGenerator(name = "payment_seq", sequenceName = "payment_id_seq", initialValue = 1, allocationSize = 12)
 public class Payment {
 
     @Id
